@@ -6,5 +6,5 @@ import com.zholud.usersgroupsrest.model.Entity;
 @FunctionalInterface
 public interface DtoToEntityMapper<EntityT extends Entity, DtoT extends Dto> {
 
-    EntityT entityToDto(DtoT dto);
+    EntityT dtoToEntity(DtoT dto);
 }

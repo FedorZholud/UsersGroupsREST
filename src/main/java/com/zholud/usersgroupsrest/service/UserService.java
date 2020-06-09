@@ -1,18 +1,18 @@
 package com.zholud.usersgroupsrest.service;
 
-import com.zholud.usersgroupsrest.model.impl.UserEntity;
+import com.zholud.usersgroupsrest.dto.impl.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    long createUser(UserEntity userEntity);
+    long createUser(UserDto userDto);
 
-    UserEntity findById(long id);
+    UserDto findById(long id);
 
-    List<UserEntity> findAll();
+    List<UserDto> findAll();
 
-    long updateUser(UserEntity userEntity);
+    long updateUser(UserDto userDto);
 
-    long deleteUser(UserEntity userEntity);
+    long deleteUser(UserDto userDto);
 }
