@@ -1,6 +1,7 @@
 package com.zholud.usersgroupsrest.service;
 
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
+import com.zholud.usersgroupsrest.model.impl.UserEntity;
 
 import java.util.List;
 

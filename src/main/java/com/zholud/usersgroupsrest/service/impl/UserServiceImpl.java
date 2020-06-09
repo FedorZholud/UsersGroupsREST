@@ -2,6 +2,7 @@ package com.zholud.usersgroupsrest.service.impl;
 
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
 import com.zholud.usersgroupsrest.mapper.jpa.impl.user.UserJpaSymmetricMapper;
+import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.repository.UserJpaRepository;
 import com.zholud.usersgroupsrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,12 +50,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long updateUser(UserDto userDto) {
-        return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
+        try {
+            UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userDto);
+
+            if (userDto.getId() == userEntity.getId()) {
+                return userJpaRepository.save(userEntity).getId();
+            }
+
+            throw new EntityNotFoundException("Not found Entity with id: " + userDto.getId());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override
     public long deleteUser(UserDto userDto) {
-        userJpaRepository.delete(userJpaSymmetricMapper.dtoToEntity(userDto));
+        userJpaRepository.deleteById(userDto.getId());
         return userDto.getId();
     }
 }
