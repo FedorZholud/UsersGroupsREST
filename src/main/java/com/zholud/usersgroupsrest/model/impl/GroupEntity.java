@@ -1,5 +1,6 @@
 package com.zholud.usersgroupsrest.model.impl;
 
+import com.zholud.usersgroupsrest.model.JpaBaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "groups")
-public class GroupEntity {
+public class GroupEntity extends JpaBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

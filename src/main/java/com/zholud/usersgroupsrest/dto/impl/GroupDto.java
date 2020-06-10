@@ -23,8 +23,11 @@ public class GroupDto extends BaseDto {
     @Getter
     private final List<UserDto> userDtos;
 
+    @Getter
+    private final List<Long> userIds;
+
     @SuppressWarnings("unused")
     private GroupDto() {
-        this(0,null,null,null);
+        this(0,null,null,null, null);
     }
 }

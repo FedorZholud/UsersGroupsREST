@@ -1,11 +1,9 @@
 package com.zholud.usersgroupsrest.controller;
 
+import com.zholud.usersgroupsrest.dto.impl.GroupDto;
 import com.zholud.usersgroupsrest.model.impl.GroupEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,8 +11,14 @@ import java.util.List;
 public interface GroupController {
 
     @PostMapping("/")
-    ResponseEntity<?> createGroup(GroupEntity groupEntity);
+    ResponseEntity<?> createGroup(@RequestBody GroupDto groupDto);
 
     @GetMapping("/")
-    ResponseEntity<List<GroupEntity>> findAllGroups();
+    ResponseEntity<List<GroupDto>> findAllGroups();
+
+    @GetMapping("/{id}")
+    ResponseEntity<GroupDto> findGroupById(@PathVariable("id") long id);
+
+    @PutMapping("/")
+    ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto);
 }
