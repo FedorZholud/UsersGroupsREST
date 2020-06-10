@@ -1,27 +1,27 @@
 package com.zholud.usersgroupsrest.controller;
 
+import com.zholud.usersgroupsrest.dto.impl.UserDto;
 import com.zholud.usersgroupsrest.model.impl.UserEntity;
-import com.zholud.usersgroupsrest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-public class UserController {
+@RequestMapping("/users")
+public interface UserController {
 
-    @Autowired
-    private UserService userService;
+    @GetMapping("/")
+    ResponseEntity<List<UserDto>> findAll();
 
-    @GetMapping(value = "/users")
-    public ResponseEntity<List<UserEntity>> read() {
-        final List<UserEntity> userEntities = userService.findAll();
+    @GetMapping("/{id}")
+    ResponseEntity<UserDto> findById(@PathVariable("id") long id);
 
-        return userEntities != null && !userEntities.isEmpty()
-                ? new ResponseEntity<>(userEntities, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+    @PostMapping("/")
+    ResponseEntity<?> createUser(@RequestBody UserDto userDto);
+
+    @PutMapping("/")
+    ResponseEntity<?> updateUser(@RequestBody UserDto userDto);
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteUser(@PathVariable("id") long id);
 }
