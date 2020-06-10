@@ -17,5 +17,11 @@ public interface UserController {
     ResponseEntity<UserDto> findById(@PathVariable("id") long id);
 
     @PostMapping("/")
-    long createUser(@RequestBody UserDto userDto);
+    ResponseEntity<?> createUser(@RequestBody UserDto userDto);
+
+    @PutMapping("/")
+    ResponseEntity<?> updateUser(@RequestBody UserDto userDto);
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<?> deleteUser(@PathVariable("id") long id);
 }

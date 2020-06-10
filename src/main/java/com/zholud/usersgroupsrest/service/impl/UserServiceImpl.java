@@ -27,14 +27,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long createUser(UserDto userDto) {
-        return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
+        try {
+            return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override
     public UserDto findById(long id) {
         try {
             return userJpaSymmetricMapper.entityToDto(userJpaRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("" + id)));
+                    .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + id)));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -66,8 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long deleteUser(UserDto userDto) {
-        userJpaRepository.deleteById(userDto.getId());
-        return userDto.getId();
+    public long deleteUser(long id) {
+        try {
+            userJpaRepository.deleteById(id);
+            return id;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

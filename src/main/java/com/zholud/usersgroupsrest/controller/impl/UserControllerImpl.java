@@ -2,7 +2,6 @@ package com.zholud.usersgroupsrest.controller.impl;
 
 import com.zholud.usersgroupsrest.controller.UserController;
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
-import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +35,29 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public long createUser(UserDto userDto) {
-        return userService.createUser(userDto);
+    public ResponseEntity<?> createUser(UserDto userDto) {
+        final long id = userService.createUser(userDto);
+
+        return id != 0
+                ? new ResponseEntity<>(id, HttpStatus.CREATED)
+                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<?> updateUser(UserDto userDto) {
+        final long userId = userService.updateUser(userDto);
+
+        return userId != 0
+                ? new ResponseEntity<>(userId, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<?> deleteUser(long id) {
+        long userId = userService.deleteUser(id);
+
+        return userId != 0
+                ? new ResponseEntity<>(userId, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }
