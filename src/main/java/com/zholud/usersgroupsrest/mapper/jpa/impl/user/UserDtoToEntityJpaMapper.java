@@ -35,4 +35,14 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
             return userEntity;
         }
     }
+
+    @Override
+    public UserEntity createEntityFromDto(UserDto dto) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFirstName(dto.getFirstName());
+        userEntity.setLastName(dto.getLastName());
+        userEntity.setGroupId(dto.getGroupId());
+
+        return userEntity;
+    }
 }

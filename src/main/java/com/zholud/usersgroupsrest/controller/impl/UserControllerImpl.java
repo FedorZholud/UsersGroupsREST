@@ -2,6 +2,7 @@ package com.zholud.usersgroupsrest.controller.impl;
 
 import com.zholud.usersgroupsrest.controller.UserController;
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
+import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,5 +60,12 @@ public class UserControllerImpl implements UserController {
         return userId != 0
                 ? new ResponseEntity<>(userId, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @Override
+    public ResponseEntity<UserEntity> addContact(long contactId, UserEntity userEntity) {
+        final UserEntity entity = userService.addContact(contactId, userEntity);
+
+        return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 }

@@ -24,4 +24,10 @@ public interface UserController {
 
     @DeleteMapping("/{id}")
     ResponseEntity<?> deleteUser(@PathVariable("id") long id);
+
+    @GetMapping("/add/{contact}")
+    ResponseEntity<UserEntity> addContact(
+            @PathVariable("contact") long conactId,
+            @RequestBody UserEntity userEntity
+    );
 }

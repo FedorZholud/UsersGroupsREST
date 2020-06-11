@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
             return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
         } catch (Exception e) {
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
     }
@@ -42,6 +44,7 @@ public class UserServiceImpl implements UserService {
                     .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + id)));
         } catch (Exception e) {
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return null;
         }
     }
@@ -66,6 +69,7 @@ public class UserServiceImpl implements UserService {
 
         } catch (Exception e) {
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
     }
@@ -77,7 +81,15 @@ public class UserServiceImpl implements UserService {
             return id;
         } catch (Exception e) {
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return 0;
         }
+    }
+
+    @Override
+    public UserEntity addContact(long contactId, UserEntity userEntity) {
+        userEntity.getContacts().add(userJpaRepository.findById(contactId).get());
+
+        return userJpaRepository.save(userEntity);
     }
 }

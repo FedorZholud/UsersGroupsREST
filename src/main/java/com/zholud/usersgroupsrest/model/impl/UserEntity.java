@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +34,16 @@ public class UserEntity extends JpaBaseEntity implements Serializable {
     @Setter
     private long groupId;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_contacts",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "contact_id") }
+    )
+    @Getter
+    @Setter
+    private Set<UserEntity> contacts = new HashSet<>();
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -39,6 +51,7 @@ public class UserEntity extends JpaBaseEntity implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", groupId=" + groupId +
+                ", contacts=" + contacts +
                 '}';
     }
 }
