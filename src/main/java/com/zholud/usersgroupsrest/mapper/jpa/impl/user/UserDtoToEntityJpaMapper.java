@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity, UserDto> {
@@ -17,23 +19,18 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
 
     @Override
     public UserEntity dtoToEntity(UserDto dto) {
-        try {
-            UserEntity userEntity = userJpaRepository.findById(dto.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + dto.getId()));
-            userEntity.setFirstName(dto.getFirstName());
-            userEntity.setLastName(dto.getLastName());
-            userEntity.setGroupId(dto.getGroupId());
+        Set<UserEntity> contacts = dto.getContacts().stream()
+                .map(this::contactsToEntity)
+                .collect(Collectors.toSet());
 
-            return userEntity;
+        UserEntity userEntity = userJpaRepository.findById(dto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + dto.getId()));
+        userEntity.setFirstName(dto.getFirstName());
+        userEntity.setLastName(dto.getLastName());
+        userEntity.setGroupId(dto.getGroupId());
+        userEntity.setContacts(contacts);
 
-        } catch (Exception e) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setFirstName(dto.getFirstName());
-            userEntity.setLastName(dto.getLastName());
-            userEntity.setGroupId(dto.getGroupId());
-
-            return userEntity;
-        }
+        return userEntity;
     }
 
     @Override
@@ -44,5 +41,15 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
         userEntity.setGroupId(dto.getGroupId());
 
         return userEntity;
+    }
+
+    private UserEntity contactsToEntity(UserDto dto) {
+//        UserEntity userEntity = new UserEntity();
+//        userEntity.setId(dto.getId());
+//        userEntity.setFirstName(dto.getFirstName());
+//        userEntity.setLastName(dto.getLastName());
+//        userEntity.setGroupId(dto.getGroupId());
+
+        return userJpaRepository.findById(dto.getId()).get();
     }
 }

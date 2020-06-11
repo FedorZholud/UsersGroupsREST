@@ -17,6 +17,7 @@ public class UserEntity extends JpaBaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     @Getter
+    @Setter
     private long id;
 
     @Column(name = "first_name")

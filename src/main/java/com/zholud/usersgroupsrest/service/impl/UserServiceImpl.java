@@ -27,14 +27,9 @@ public class UserServiceImpl implements UserService {
     UserJpaRepository userJpaRepository;
 
     @Override
-    public long createUser(UserDto userDto) {
-        try {
-            return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return 0;
-        }
+    public UserDto createUser(UserDto userDto) {
+        UserEntity userEntity = userJpaRepository.save(userJpaSymmetricMapper.createEntityFromDto(userDto));
+        return userJpaSymmetricMapper.entityToDto(userEntity);
     }
 
     @Override
@@ -87,9 +82,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity addContact(long contactId, UserEntity userEntity) {
+    public UserDto addContact(long contactId, UserDto userDto) {
+        UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userDto);
         userEntity.getContacts().add(userJpaRepository.findById(contactId).get());
 
-        return userJpaRepository.save(userEntity);
+        return userJpaSymmetricMapper.entityToDto(userJpaRepository.save(userEntity));
+    }
+
+    @Override
+    public UserDto removeContact(long contactId, UserDto userDto) {
+        UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userDto);
+        userEntity.getContacts().remove(userJpaRepository.findById(contactId).get());
+
+        return userJpaSymmetricMapper.entityToDto(userJpaRepository.save(userEntity));
     }
 }

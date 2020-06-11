@@ -36,11 +36,11 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<?> createUser(UserDto userDto) {
-        final long id = userService.createUser(userDto);
+    public ResponseEntity<UserDto> createUser(UserDto userDto) {
+        final UserDto user = userService.createUser(userDto);
 
-        return id != 0
-                ? new ResponseEntity<>(id, HttpStatus.CREATED)
+        return user != null
+                ? new ResponseEntity<>(user, HttpStatus.CREATED)
                 : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -63,9 +63,16 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public ResponseEntity<UserEntity> addContact(long contactId, UserEntity userEntity) {
-        final UserEntity entity = userService.addContact(contactId, userEntity);
+    public ResponseEntity<UserDto> addContact(long contactId, UserDto userDto) {
+        final UserDto dto = userService.addContact(contactId, userDto);
 
-        return new ResponseEntity<>(entity, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<UserDto> removeContact(long contactId, UserDto userDto) {
+        final UserDto dto = userService.removeContact(contactId, userDto);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 }
