@@ -85,4 +85,11 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
     }
+
+    @Override
+    public UserEntity addContact(long contactId, UserEntity userEntity) {
+        userEntity.getContacts().add(userJpaRepository.findById(contactId).get());
+
+        return userJpaRepository.save(userEntity);
+    }
 }

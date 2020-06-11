@@ -28,7 +28,7 @@ public class GroupEntity extends JpaBaseEntity {
     @Setter
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
     @Getter
     @Setter

@@ -16,4 +16,6 @@ public interface UserService {
     long updateUser(UserDto userDto);
 
     long deleteUser(long id);
+
+    UserEntity addContact(long contactId, UserEntity userEntity);
 }
