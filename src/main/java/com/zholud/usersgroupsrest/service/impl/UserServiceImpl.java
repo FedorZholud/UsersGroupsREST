@@ -7,6 +7,9 @@ import com.zholud.usersgroupsrest.repository.UserJpaRepository;
 import com.zholud.usersgroupsrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -18,13 +21,19 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     UserJpaSymmetricMapper userJpaSymmetricMapper;
 
     @Autowired
     UserJpaRepository userJpaRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+//        return userJpaRepository.findByUserName(userName);
+        return null;
+    }
 
     @Override
     public UserDto createUser(UserDto userDto) {

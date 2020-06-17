@@ -19,16 +19,20 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
 
     @Override
     public UserEntity dtoToEntity(UserDto dto) {
-        Set<UserEntity> contacts = dto.getContacts().stream()
-                .map(this::contactsToEntity)
-                .collect(Collectors.toSet());
 
         UserEntity userEntity = userJpaRepository.findById(dto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + dto.getId()));
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setGroupId(dto.getGroupId());
-        userEntity.setContacts(contacts);
+
+        if (dto.getContacts() != null) {
+            Set<UserEntity> contacts = dto.getContacts().stream()
+                    .map(this::contactsToEntity)
+                    .collect(Collectors.toSet());
+
+            userEntity.setContacts(contacts);
+        }
 
         return userEntity;
     }
