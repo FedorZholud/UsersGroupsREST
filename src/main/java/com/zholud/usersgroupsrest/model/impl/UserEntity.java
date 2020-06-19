@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends JpaBaseEntity implements Serializable {
+public class UserEntity extends JpaBaseEntity implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,17 +24,21 @@ public class UserEntity extends JpaBaseEntity implements Serializable {
     @Setter
     private long id;
 
-//    @Column(name = "user_name")
-//    @NotBlank(message = "Username cannot be empty")
-//    @Getter
-//    @Setter
-//    private String username;
-//
-//    @Column(name = "password")
-//    @NotBlank(message = "Password cannot be empty")
-//    @Getter
-//    @Setter
-//    private String password;
+    @Column(name = "user_name")
+    @NotBlank(message = "Username cannot be empty")
+    @Getter
+    @Setter
+    private String username;
+
+    @Column(name = "password")
+    @NotBlank(message = "Password cannot be empty")
+    @Getter
+    @Setter
+    private String password;
+
+    @Column(name = "active")
+    @Setter
+    private boolean active;
 
     @Column(name = "first_name")
     @Getter
@@ -61,12 +65,34 @@ public class UserEntity extends JpaBaseEntity implements Serializable {
     @Setter
     private Set<UserEntity> contacts = new HashSet<>();
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isActive();
+    }
+
+    public boolean isActive() {
+        return active;
+    }
 
     @Override
     public String toString() {

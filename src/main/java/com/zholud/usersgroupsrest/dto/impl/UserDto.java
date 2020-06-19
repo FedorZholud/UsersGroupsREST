@@ -23,10 +23,16 @@ public class UserDto extends BaseDto {
     private final long groupId;
 
     @Getter
+    private final String username;
+
+    @Getter
+    private final String password;
+
+    @Getter
     private final Set<UserDto> contacts;
 
     @SuppressWarnings("unused")
     private UserDto() {
-        this(0, null, null, 0, null);
+        this(0, null, null, 0, null, null, null);
     }
 }

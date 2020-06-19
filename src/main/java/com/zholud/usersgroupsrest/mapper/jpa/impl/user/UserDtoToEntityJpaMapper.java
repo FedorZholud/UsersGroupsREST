@@ -5,6 +5,7 @@ import com.zholud.usersgroupsrest.mapper.jpa.DtoToEntityJpaMapper;
 import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,6 +17,9 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
 
     @Autowired
     UserJpaRepository userJpaRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity dtoToEntity(UserDto dto) {
@@ -43,6 +47,8 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setGroupId(dto.getGroupId());
+        userEntity.setUsername(dto.getUsername());
+        userEntity.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return userEntity;
     }

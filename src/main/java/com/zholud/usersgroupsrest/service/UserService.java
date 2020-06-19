@@ -2,10 +2,11 @@ package com.zholud.usersgroupsrest.service;
 
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
 import com.zholud.usersgroupsrest.model.impl.UserEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     UserDto createUser(UserDto userDto);
 

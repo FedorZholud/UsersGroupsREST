@@ -22,6 +22,7 @@ public class UserEntityToDtoJpaMapper implements EntityToDtoJpaMapper<UserEntity
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .groupId(entity.getGroupId())
+                .username(entity.getUsername())
                 .contacts(contacts)
                 .build();
     }
@@ -32,6 +33,7 @@ public class UserEntityToDtoJpaMapper implements EntityToDtoJpaMapper<UserEntity
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .groupId(entity.getGroupId())
+                .username(entity.getUsername())
                 .build();
     }
 }
