@@ -7,6 +7,10 @@ import com.zholud.usersgroupsrest.repository.UserJpaRepository;
 import com.zholud.usersgroupsrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -27,14 +31,14 @@ public class UserServiceImpl implements UserService {
     UserJpaRepository userJpaRepository;
 
     @Override
-    public long createUser(UserDto userDto) {
-        try {
-            return userJpaRepository.save(userJpaSymmetricMapper.dtoToEntity(userDto)).getId();
-        } catch (Exception e) {
-            e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return 0;
-        }
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        return userJpaRepository.findByUsername(userName);
+    }
+
+    @Override
+    public UserDto createUser(UserDto userDto) {
+        UserEntity userEntity = userJpaRepository.save(userJpaSymmetricMapper.createEntityFromDto(userDto));
+        return userJpaSymmetricMapper.entityToDto(userEntity);
     }
 
     @Override
@@ -87,9 +91,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity addContact(long contactId, UserEntity userEntity) {
+    public UserDto addContact(long contactId, UserDto userDto) {
+        UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userDto);
         userEntity.getContacts().add(userJpaRepository.findById(contactId).get());
 
-        return userJpaRepository.save(userEntity);
+        return userJpaSymmetricMapper.entityToDto(userJpaRepository.save(userEntity));
+    }
+
+    @Override
+    public UserDto removeContact(long contactId, UserDto userDto) {
+        UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userDto);
+        userEntity.getContacts().remove(userJpaRepository.findById(contactId).get());
+
+        return userJpaSymmetricMapper.entityToDto(userJpaRepository.save(userEntity));
     }
 }

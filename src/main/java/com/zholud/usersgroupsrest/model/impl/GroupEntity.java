@@ -16,6 +16,7 @@ public class GroupEntity extends JpaBaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "group_id")
     @Getter
+    @Setter
     private long groupId;
 
     @Column(name = "group_name")

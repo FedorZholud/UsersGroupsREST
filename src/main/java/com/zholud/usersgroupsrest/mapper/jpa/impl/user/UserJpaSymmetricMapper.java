@@ -27,6 +27,6 @@ public class UserJpaSymmetricMapper implements JpaSymmetricMapper<UserEntity, Us
 
     @Override
     public UserEntity createEntityFromDto(UserDto dto) {
-        return null;
+        return userDtoToEntityJpaMapper.createEntityFromDto(dto);
     }
 }

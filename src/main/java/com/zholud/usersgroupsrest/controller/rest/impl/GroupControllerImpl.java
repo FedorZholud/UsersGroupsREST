@@ -1,14 +1,11 @@
-package com.zholud.usersgroupsrest.controller.impl;
+package com.zholud.usersgroupsrest.controller.rest.impl;
 
-import com.zholud.usersgroupsrest.controller.GroupController;
+import com.zholud.usersgroupsrest.controller.rest.GroupController;
 import com.zholud.usersgroupsrest.dto.impl.GroupDto;
-import com.zholud.usersgroupsrest.dto.impl.UserDto;
-import com.zholud.usersgroupsrest.model.impl.GroupEntity;
 import com.zholud.usersgroupsrest.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
