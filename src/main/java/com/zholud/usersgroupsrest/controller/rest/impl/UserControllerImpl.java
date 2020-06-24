@@ -1,13 +1,11 @@
-package com.zholud.usersgroupsrest.controller.impl;
+package com.zholud.usersgroupsrest.controller.rest.impl;
 
-import com.zholud.usersgroupsrest.controller.UserController;
+import com.zholud.usersgroupsrest.controller.rest.UserController;
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
-import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

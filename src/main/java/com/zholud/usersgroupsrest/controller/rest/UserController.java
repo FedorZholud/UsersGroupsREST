@@ -1,4 +1,4 @@
-package com.zholud.usersgroupsrest.controller;
+package com.zholud.usersgroupsrest.controller.rest;
 
 import com.zholud.usersgroupsrest.dto.impl.UserDto;
 import org.springframework.http.ResponseEntity;
