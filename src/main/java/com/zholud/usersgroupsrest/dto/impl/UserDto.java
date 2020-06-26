@@ -1,13 +1,16 @@
 package com.zholud.usersgroupsrest.dto.impl;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.zholud.usersgroupsrest.dto.BaseDto;
+import com.fasterxml.jackson.annotation.JsonInclude.*;
 import lombok.*;
 
 import java.util.Set;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@JsonInclude(Include.NON_NULL)
 public class UserDto extends BaseDto {
 
     @Getter
@@ -29,6 +32,7 @@ public class UserDto extends BaseDto {
     private final String password;
 
     @Getter
+    @JsonInclude(Include.NON_EMPTY)
     private final Set<UserDto> contacts;
 
     @SuppressWarnings("unused")
