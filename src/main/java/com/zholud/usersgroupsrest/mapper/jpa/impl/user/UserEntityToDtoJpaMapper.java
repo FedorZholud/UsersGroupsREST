@@ -36,4 +36,14 @@ public class UserEntityToDtoJpaMapper implements EntityToDtoJpaMapper<UserEntity
                 .username(entity.getUsername())
                 .build();
     }
+
+    public UserDto entityToDtoWithoutContacts(UserEntity entity) {
+        return UserDto.builder()
+                .id(entity.getId())
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .groupId(entity.getGroupId())
+                .username(entity.getUsername())
+                .build();
+    }
 }

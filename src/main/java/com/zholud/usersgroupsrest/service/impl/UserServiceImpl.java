@@ -7,6 +7,9 @@ import com.zholud.usersgroupsrest.repository.UserJpaRepository;
 import com.zholud.usersgroupsrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,8 +50,6 @@ public class UserServiceImpl implements UserService {
             return userJpaSymmetricMapper.entityToDto(userJpaRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Not found Entity with id: " + id)));
         } catch (Exception e) {
-            e.printStackTrace();
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return null;
         }
     }
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userJpaRepository.findAll().stream()
-                .map(userJpaSymmetricMapper::entityToDto)
+                .map(userJpaSymmetricMapper::entityToDtoWithoutContacts)
                 .collect(Collectors.toList());
     }
 

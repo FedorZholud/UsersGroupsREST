@@ -29,4 +29,8 @@ public class UserJpaSymmetricMapper implements JpaSymmetricMapper<UserEntity, Us
     public UserEntity createEntityFromDto(UserDto dto) {
         return userDtoToEntityJpaMapper.createEntityFromDto(dto);
     }
+
+    public UserDto entityToDtoWithoutContacts(UserEntity entity) {
+        return userEntityToDtoJpaMapper.entityToDtoWithoutContacts(entity);
+    }
 }
