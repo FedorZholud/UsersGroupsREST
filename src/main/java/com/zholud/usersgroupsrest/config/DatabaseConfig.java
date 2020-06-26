@@ -34,6 +34,8 @@ public class DatabaseConfig {
                         env.getProperty("hibernate.dialect"));
                 setProperty("hibernate.globally_quoted_identifiers",
                         "true");
+                setProperty("hibernate.enable_lazy_load_no_trans",
+                        "true");
             }
         };
     }

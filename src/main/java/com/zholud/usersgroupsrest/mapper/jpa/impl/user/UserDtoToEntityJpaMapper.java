@@ -29,6 +29,11 @@ public class UserDtoToEntityJpaMapper implements DtoToEntityJpaMapper<UserEntity
         userEntity.setFirstName(dto.getFirstName());
         userEntity.setLastName(dto.getLastName());
         userEntity.setGroupId(dto.getGroupId());
+        userEntity.setUsername(dto.getUsername());
+
+        if (dto.getPassword() != null) {
+            userEntity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
 
         if (dto.getContacts() != null) {
             Set<UserEntity> contacts = dto.getContacts().stream()
