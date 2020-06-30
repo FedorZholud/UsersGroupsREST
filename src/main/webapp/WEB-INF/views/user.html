@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>User</title>
 </head>
 <body>
 <th:block th:include="navbar"></th:block>
-<p>Its User Page</p>
+<div sec:authorize="isAuthenticated()" th:with="user=${@userJpaRepository.findByUsername(#authentication.getName())}">
+    <div th:text="userdto=${@userServiceImpl.findById(user.getId())}">
+    </div>
+</div>
 </body>
 </html>
