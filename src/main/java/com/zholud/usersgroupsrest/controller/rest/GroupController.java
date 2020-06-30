@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/groups")
+@RequestMapping("/api/groups")
 public interface GroupController {
 
     @PostMapping("/")

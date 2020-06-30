@@ -8,14 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class UserEntity extends JpaBaseEntity implements Serializable, UserDetails {
+public class UserEntity extends JpaBaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,7 +23,7 @@ public class UserEntity extends JpaBaseEntity implements Serializable, UserDetai
     @Setter
     private long id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     @NotBlank(message = "Username cannot be empty")
     @Getter
     @Setter
