@@ -7,8 +7,11 @@
 </head>
 <body>
 <th:block th:include="navbar"></th:block>
-<div sec:authorize="isAuthenticated()" th:with="user=${@userJpaRepository.findByUsername(#authentication.getName())}">
-    <div th:text="userdto=${@userServiceImpl.findById(user.getId())}">
+<div sec:authorize="isAuthenticated()">
+    <div th:with="id=${@userControllerImpl.getCurrentUserId()}">
+        <div th:text="${@userControllerImpl.findById(id)}">
+                
+        </div>
     </div>
 </div>
 </body>
