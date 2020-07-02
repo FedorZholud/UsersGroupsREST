@@ -35,4 +35,7 @@ public interface UserController {
             @PathVariable("contact") long conactId,
             @RequestBody UserDto userDto
     );
+
+    @GetMapping("/currentuser")
+    ResponseEntity<?> getCurrentUserId();
 }

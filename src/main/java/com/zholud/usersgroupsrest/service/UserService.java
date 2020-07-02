@@ -21,4 +21,6 @@ public interface UserService extends UserDetailsService {
     UserDto addContact(long contactId, UserDto userDto);
 
     UserDto removeContact(long contactId, UserDto userDto);
+
+    long getCurrentUserId();
 }

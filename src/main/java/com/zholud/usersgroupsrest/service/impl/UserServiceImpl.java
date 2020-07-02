@@ -106,4 +106,12 @@ public class UserServiceImpl implements UserService {
 
         return userJpaSymmetricMapper.entityToDto(userJpaRepository.save(userEntity));
     }
+
+    @Override
+    public long getCurrentUserId() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+
+        return authentication != null ? ((UserEntity) authentication.getPrincipal()).getId() : 0;
+    }
 }

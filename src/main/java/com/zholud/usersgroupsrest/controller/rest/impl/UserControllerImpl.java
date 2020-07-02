@@ -81,4 +81,13 @@ public class UserControllerImpl implements UserController {
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<?> getCurrentUserId() {
+        final long id = userService.getCurrentUserId();
+
+        return id != 0
+                ? new ResponseEntity<>(id, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 }
