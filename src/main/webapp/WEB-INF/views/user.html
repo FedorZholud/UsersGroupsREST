@@ -8,11 +8,9 @@
 <body>
 <th:block th:include="navbar"></th:block>
 <div sec:authorize="isAuthenticated()">
-    <div th:with="id=${@userControllerImpl.getCurrentUserId()}">
-        <div th:text="${@userControllerImpl.findById(id)}">
-                
-        </div>
-    </div>
+    <div th:text="'User name: ' + ${user.getUsername()}"></div>
+    <div th:text="'Name: ' + ${user.getFirstName()}"></div>
+    <div th:text="'Last name: ' + ${user.getLastName()}"></div>
 </div>
 </body>
 </html>

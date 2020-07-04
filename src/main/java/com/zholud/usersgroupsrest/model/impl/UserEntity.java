@@ -64,6 +64,11 @@ public class UserEntity extends JpaBaseEntity implements UserDetails {
     @Setter
     private Set<UserEntity> contacts = new HashSet<>();
 
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    private Set<MessageEntity> messageEntities = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
