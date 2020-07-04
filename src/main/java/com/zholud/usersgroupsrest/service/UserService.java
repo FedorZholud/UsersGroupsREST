@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     UserDto removeContact(long contactId, UserDto userDto);
 
     long getCurrentUserId();
+
+    UserDto getCurrentUser();
 }

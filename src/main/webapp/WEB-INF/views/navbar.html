@@ -28,10 +28,10 @@
         </ul>
     </div>
     <div sec:authorize="!isAuthenticated()">
-        <button onclick="location.href = '/login'">Log in</button>
+        <button class="btn btn-primary" onclick="location.href = '/login'">Log in</button>
     </div>
     <div sec:authorize="isAuthenticated()">
-        <form th:action="@{/logout}" method="post"><button type="submit">Sign out</button></form>
+        <form th:action="@{/logout}" method="post"><button class="btn btn-primary" type="submit">Sign out</button></form>
     </div>
 </nav>
 
