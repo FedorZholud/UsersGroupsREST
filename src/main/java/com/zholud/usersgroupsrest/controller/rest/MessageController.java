@@ -1,5 +1,6 @@
 package com.zholud.usersgroupsrest.controller.rest;
 
+import com.zholud.usersgroupsrest.dto.impl.MessageDto;
 import com.zholud.usersgroupsrest.model.impl.MessageEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +11,8 @@ import java.util.List;
 public interface MessageController {
 
     @PostMapping("/create")
-    ResponseEntity<?> createMessage(@RequestBody MessageEntity messageEntity);
+    ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto);
 
-    @GetMapping("/touser/{id}")
-    ResponseEntity<List<MessageEntity>> findMessagesToUser(@PathVariable("id") long toUserId);
+    @GetMapping("/with/{id}")
+    ResponseEntity<List<MessageDto>> findMessagesToUser(@PathVariable("id") long toUserId);
 }

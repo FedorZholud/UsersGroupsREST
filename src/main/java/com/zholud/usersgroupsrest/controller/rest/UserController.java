@@ -38,4 +38,7 @@ public interface UserController {
 
     @GetMapping("/currentuser")
     ResponseEntity<?> getCurrentUserId();
+
+    @PostMapping("/usernameexist")
+    ResponseEntity<?> checkUsernameExist(@RequestParam("username") String username);
 }

@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userJpaRepository.findAll().stream()
+                .filter(userEntity -> getCurrentUserId() != userEntity.getId())
                 .map(userJpaSymmetricMapper::entityToDtoWithoutContacts)
                 .collect(Collectors.toList());
     }

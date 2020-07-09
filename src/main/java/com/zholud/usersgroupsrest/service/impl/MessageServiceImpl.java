@@ -1,5 +1,7 @@
 package com.zholud.usersgroupsrest.service.impl;
 
+import com.zholud.usersgroupsrest.dto.impl.MessageDto;
+import com.zholud.usersgroupsrest.mapper.jpa.impl.message.MessageJpaSymmetricMapper;
 import com.zholud.usersgroupsrest.mapper.jpa.impl.user.UserJpaSymmetricMapper;
 import com.zholud.usersgroupsrest.model.impl.MessageEntity;
 import com.zholud.usersgroupsrest.model.impl.UserEntity;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,15 +33,23 @@ public class MessageServiceImpl implements MessageService {
     @Autowired
     UserJpaSymmetricMapper userJpaSymmetricMapper;
 
+    @Autowired
+    MessageJpaSymmetricMapper messageJpaSymmetricMapper;
+
     @Override
-    public List<MessageEntity> findForToUser(long toUserId) {
+    public List<MessageDto> findForToUser(long toUserId) {
         UserEntity userEntity = userJpaSymmetricMapper.dtoToEntity(userService.getCurrentUser());
-        return userEntity != null ? messageJpaRepository.findByAuthorAndToUserId(userEntity, toUserId) : null;
+        UserEntity fromUser = userJpaSymmetricMapper.dtoToEntity(userService.findById(toUserId));
+        return userEntity != null && fromUser != null
+                ? messageJpaRepository.findByAuthorAndToUserIdOrAuthorAndToUserIdOrderByTimestamp(userEntity, toUserId, fromUser, userEntity.getId()).stream().map(messageJpaSymmetricMapper::entityToDto).collect(Collectors.toList())
+                : null;
     }
 
     @Override
-    public long createMessage(MessageEntity messageEntity) {
-        messageEntity.setAuthor(userJpaSymmetricMapper.dtoToEntity(userService.getCurrentUser()));
-        return messageJpaRepository.save(messageEntity).getId();
+    public long createMessage(MessageDto messageDto) {
+//        messageDto.setAuthor(userJpaSymmetricMapper.dtoToEntity(userService.getCurrentUser()));
+//        return messageJpaRepository.save(messageEntity).getId();
+
+        return messageJpaRepository.save(messageJpaSymmetricMapper.createEntityFromDto(messageDto)).getId();
     }
 }
