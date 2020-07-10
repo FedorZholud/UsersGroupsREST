@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MessageJpaRepository extends JpaRepository<MessageEntity, Long> {
 
-    List<MessageEntity> findByAuthorAndToUserId(UserEntity author, long toUserId);
+    List<MessageEntity> findByAuthorAndToUserIdOrAuthorAndToUserIdOrderByTimestamp(UserEntity author, long toUserId, UserEntity fromUser, long toAuthor);
 }
