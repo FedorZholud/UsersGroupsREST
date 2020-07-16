@@ -40,16 +40,4 @@ public class ViewControllerImpl implements ViewController {
     public String registration(Model model) {
         return "registration";
     }
-
-    @Override
-    public ResponseEntity<?> addUser(UserDto userDto, BindingResult result, Model model) {
-        try {
-
-            return userService.createUser(userDto) != null
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 }

@@ -44,11 +44,15 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public ResponseEntity<UserDto> createUser(UserDto userDto) {
-        final UserDto user = userService.createUser(userDto);
+        try {
+            final UserDto user = userService.createUser(userDto);
 
-        return user != null
-                ? new ResponseEntity<>(user, HttpStatus.CREATED)
-                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return user != null
+                    ? new ResponseEntity<>(user, HttpStatus.CREATED)
+                    : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override

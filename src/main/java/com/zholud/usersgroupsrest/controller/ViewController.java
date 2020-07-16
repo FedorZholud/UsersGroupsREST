@@ -22,7 +22,4 @@ public interface ViewController {
 
     @GetMapping("/signup")
     String registration(Model model);
-
-    @PostMapping("/adduser")
-    ResponseEntity<?> addUser(@RequestBody UserDto userDto, BindingResult result, Model model);
 }
