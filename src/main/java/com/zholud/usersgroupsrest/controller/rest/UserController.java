@@ -15,7 +15,7 @@ public interface UserController {
     @GetMapping("/{id}")
     ResponseEntity<UserDto> findById(@PathVariable("id") long id);
 
-    @PostMapping("/")
+    @PostMapping("/add_user")
     ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto);
 
     @PutMapping("/")
@@ -39,6 +39,6 @@ public interface UserController {
     @GetMapping("/currentuser")
     ResponseEntity<?> getCurrentUserId();
 
-    @PostMapping("/usernameexist")
+    @PostMapping("/username_exist")
     ResponseEntity<?> checkUsernameExist(@RequestParam("username") String username);
 }
