@@ -2,7 +2,6 @@ package com.zholud.usersgroupsrest.controller.rest.impl;
 
 import com.zholud.usersgroupsrest.controller.rest.MessageController;
 import com.zholud.usersgroupsrest.dto.impl.MessageDto;
-import com.zholud.usersgroupsrest.model.impl.MessageEntity;
 import com.zholud.usersgroupsrest.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ public class MessageControllerImpl implements MessageController {
 
     @Override
     public ResponseEntity<?> createMessage(MessageDto messageDto) {
-        long id = messageService.createMessage(messageDto);
+        final long id = messageService.createMessage(messageDto);
 
         return id != 0
                 ? new ResponseEntity<>(id, HttpStatus.CREATED)
@@ -27,11 +26,20 @@ public class MessageControllerImpl implements MessageController {
     }
 
     @Override
-    public ResponseEntity<List<MessageDto>> findMessagesToUser(long toUserId) {
-        List<MessageDto> messageDtos = messageService.findForToUser(toUserId);
+    public ResponseEntity<List<MessageDto>> findMessagesWithUser(long withUserId) {
+        final List<MessageDto> messageDtos = messageService.findMessagesWithUser(withUserId);
 
         return messageDtos != null && !messageDtos.isEmpty()
                 ? new ResponseEntity<>(messageDtos, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    public ResponseEntity<MessageDto> findFirstMessageWithUser(long withUserId) {
+        final MessageDto message = messageService.findFirstMessageWithUser(withUserId);
+
+        return message != null
+                ? new ResponseEntity<>(message, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

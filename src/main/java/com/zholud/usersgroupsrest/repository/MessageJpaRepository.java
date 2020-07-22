@@ -9,4 +9,7 @@ import java.util.List;
 public interface MessageJpaRepository extends JpaRepository<MessageEntity, Long> {
 
     List<MessageEntity> findByAuthorAndToUserIdOrAuthorAndToUserIdOrderByTimestamp(UserEntity author, long toUserId, UserEntity fromUser, long toAuthor);
+
+    MessageEntity findFirstByAuthorAndToUserIdOrAuthorAndToUserIdOrderByTimestampDesc(UserEntity author, long toUserId, UserEntity fromUser, long toAuthor);
+
 }

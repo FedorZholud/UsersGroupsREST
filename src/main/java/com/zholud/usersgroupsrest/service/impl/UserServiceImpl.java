@@ -4,6 +4,7 @@ import com.zholud.usersgroupsrest.dto.impl.UserDto;
 import com.zholud.usersgroupsrest.mapper.jpa.impl.user.UserJpaSymmetricMapper;
 import com.zholud.usersgroupsrest.model.impl.UserEntity;
 import com.zholud.usersgroupsrest.repository.UserJpaRepository;
+import com.zholud.usersgroupsrest.service.MessageService;
 import com.zholud.usersgroupsrest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -32,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserJpaRepository userJpaRepository;
+
+    @Autowired
+    MessageService messageService;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
@@ -123,5 +125,14 @@ public class UserServiceImpl implements UserService {
 
         return authentication != null
                 ? userJpaSymmetricMapper.entityToDto((UserEntity) authentication.getPrincipal()) : null;
+    }
+
+    @Override
+    public List<UserDto> findContactsWithMessages() {
+        UserDto currentUser = findById(getCurrentUserId());
+
+        return currentUser.getContacts().stream()
+                .filter(userDto -> !messageService.findMessagesWithUser(userDto.getId()).isEmpty())
+                .collect(Collectors.toList());
     }
 }

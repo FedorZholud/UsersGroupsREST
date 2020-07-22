@@ -22,4 +22,7 @@ public interface ViewController {
 
     @GetMapping("/signup")
     String registration(Model model);
+
+    @GetMapping("/messages")
+    String messages(Model model);
 }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <th:block th:include="navbar"/>
-<body class="text-center">
+<body style="background-color: #F7F0E7" class="text-center">
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
@@ -23,7 +23,7 @@
                autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+        <button style="background-color: #8E652E; border-color: #6C4D24" class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
         <br>
         <p class="text-center">Create an account? <a href="/signup">Sign Up</a> </p>
     </form>
