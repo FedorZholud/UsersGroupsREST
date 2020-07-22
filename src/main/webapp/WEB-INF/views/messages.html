@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+</head>
+<th:block th:include="navbar"/>
+<body style="height: 100%">
+<div class="d-flex flex-row h-100">
+    <div id="contacts-box" class="d-flex flex-column w-25 h-100">
+    </div>
+    <div id="messages-box" class="d-flex flex-column w-75 h-100" style="background-color: #F7F0E7">
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+        function getContactsWithMessages() {
+            let url = "http://localhost:8080/api/users/contacts/withmessages";
+            let xhr = new XMLHttpRequest();
+            let body = null;
+            xhr.open("GET", url, true);
+            xhr.send(null);
+            xhr.onreadystatechange = function () {
+                if (xhr.status === 200) {
+                    body = xhr.response.json();
+                }
+            }
+
+            return body;
+        }
+
+        function getFirstMessage() {
+            let contacts = getContactsWithMessages();
+            let contactsContainer = document.getElementById("contacts-box");
+
+            if (contacts !== null) {
+                for (let contact in contacts) {
+                    let url = "http://localhost:8080/api/messages/first_with/" + contact.id;
+                    let xhr = new XMLHttpRequest();
+                    let body = null;
+                    xhr.open("GET", url, true);
+                    xhr.send(null);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.status === 200) {
+                            body = xhr.response.json();
+                            let contactBox = document.createElement('div');
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+            }
+        }
+</script>
+</html>

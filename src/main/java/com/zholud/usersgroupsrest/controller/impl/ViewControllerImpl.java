@@ -40,4 +40,9 @@ public class ViewControllerImpl implements ViewController {
     public String registration(Model model) {
         return "registration";
     }
+
+    @Override
+    public String messages(Model model) {
+        return "messages";
+    }
 }

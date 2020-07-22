@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface MessageService {
 
-    List<MessageDto> findForToUser(long toUserId);
+    List<MessageDto> findMessagesWithUser(long withUserId);
 
     long createMessage(MessageDto messageDto);
+
+    MessageDto findFirstMessageWithUser(long withUserId);
 }

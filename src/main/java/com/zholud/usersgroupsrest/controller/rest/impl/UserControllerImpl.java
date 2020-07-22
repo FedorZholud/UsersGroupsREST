@@ -102,4 +102,13 @@ public class UserControllerImpl implements UserController {
                 ? new ResponseEntity<>(HttpStatus.BAD_REQUEST)
                 : new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<UserDto>> findContactsWithMessages() {
+        final List<UserDto> userDtos = userService.findContactsWithMessages();
+
+        return userDtos != null && !userDtos.isEmpty()
+                ? new ResponseEntity<>(userDtos, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

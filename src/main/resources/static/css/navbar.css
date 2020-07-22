@@ -1,0 +1,13 @@
+.circle-icon {
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+.navbar-bg {
+    background-color: #98E388;
+}

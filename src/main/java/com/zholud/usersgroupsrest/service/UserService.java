@@ -25,4 +25,6 @@ public interface UserService extends UserDetailsService {
     long getCurrentUserId();
 
     UserDto getCurrentUser();
+
+    List<UserDto> findContactsWithMessages();
 }

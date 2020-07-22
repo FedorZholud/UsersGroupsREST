@@ -14,5 +14,8 @@ public interface MessageController {
     ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto);
 
     @GetMapping("/with/{id}")
-    ResponseEntity<List<MessageDto>> findMessagesToUser(@PathVariable("id") long toUserId);
+    ResponseEntity<List<MessageDto>> findMessagesWithUser(@PathVariable("id") long withUserId);
+
+    @GetMapping("/first_with/{id}")
+    ResponseEntity<MessageDto> findFirstMessageWithUser(@PathVariable("id") long withUserId);
 }

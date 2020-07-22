@@ -41,4 +41,7 @@ public interface UserController {
 
     @PostMapping("/username_exist")
     ResponseEntity<?> checkUsernameExist(@RequestParam("username") String username);
+
+    @GetMapping("/contacts/withmessages")
+    ResponseEntity<List<UserDto>> findContactsWithMessages();
 }
