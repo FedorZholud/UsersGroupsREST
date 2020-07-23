@@ -36,8 +36,11 @@ public interface UserController {
             @RequestBody UserDto userDto
     );
 
-    @GetMapping("/currentuser")
+    @GetMapping("/currentuserId")
     ResponseEntity<?> getCurrentUserId();
+
+    @GetMapping("/currentuser")
+    ResponseEntity<UserDto> getCurrentUser();
 
     @PostMapping("/username_exist")
     ResponseEntity<?> checkUsernameExist(@RequestParam("username") String username);

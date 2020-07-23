@@ -22,6 +22,8 @@ public class ViewControllerImpl implements ViewController {
 
     @Override
     public String home(Model model) {
+        if (userService.getCurrentUser() != null)
+            return "redirect:/messages";
         return "home";
     }
 
