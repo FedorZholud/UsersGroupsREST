@@ -97,6 +97,15 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
+    public ResponseEntity<UserDto> getCurrentUser() {
+        final UserDto currentUser = userService.getCurrentUser();
+
+        return currentUser != null
+                ? new ResponseEntity<>(currentUser, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
     public ResponseEntity<?> checkUsernameExist(String username) {
         return userService.loadUserByUsername(username) != null
                 ? new ResponseEntity<>(HttpStatus.BAD_REQUEST)

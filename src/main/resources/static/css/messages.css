@@ -1,0 +1,9 @@
+.contactsTable,.messagesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contactsTable tr:hover {
+    background:#E4F5DC;
+    cursor: pointer;
+}

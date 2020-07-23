@@ -4,53 +4,155 @@
 <head>
     <meta charset="UTF-8">
     <title>Messages</title>
+    <link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 <th:block th:include="navbar"/>
 <body style="height: 100%">
 <div class="d-flex flex-row h-100">
     <div id="contacts-box" class="d-flex flex-column w-25 h-100">
+        <div class="w-100" style="background-color: white; height: 70px;"></div>
     </div>
-    <div id="messages-box" class="d-flex flex-column w-75 h-100" style="background-color: #F7F0E7">
+    <div id="messages-box" class="d-flex flex-column w-75 h-100" style="background-color: #F7F0E7; border-left: 1px solid #DDC3A1">
     </div>
 </div>
 </body>
 <script th:inline="javascript">
-        function getContactsWithMessages() {
-            let url = "http://localhost:8080/api/users/contacts/withmessages";
+
+    function getCurrentUser() {
+        return new Promise(function (resolve, reject) {
             let xhr = new XMLHttpRequest();
-            let body = null;
-            xhr.open("GET", url, true);
-            xhr.send(null);
-            xhr.onreadystatechange = function () {
-                if (xhr.status === 200) {
-                    body = xhr.response.json();
+
+            xhr.open("GET", "http://localhost:8080/api/users/currentuser", true);
+
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
                 }
-            }
+            };
 
-            return body;
-        }
+            xhr.onerror = function () {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            };
+            xhr.send();
+        });
+    }
 
-        function getFirstMessage() {
-            let contacts = getContactsWithMessages();
-            let contactsContainer = document.getElementById("contacts-box");
+    function getContactsWithMessages() {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
 
-            if (contacts !== null) {
-                for (let contact in contacts) {
-                    let url = "http://localhost:8080/api/messages/first_with/" + contact.id;
-                    let xhr = new XMLHttpRequest();
-                    let body = null;
-                    xhr.open("GET", url, true);
-                    xhr.send(null);
-                    xhr.onreadystatechange = function () {
-                        if (xhr.status === 200) {
-                            body = xhr.response.json();
-                            let contactBox = document.createElement('div');
-                        } else {
-                            return null;
-                        }
+            xhr.open("GET", "http://localhost:8080/api/users/contacts/withmessages", true);
+
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    resolve(xhr.response);
+                } else {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
+                }
+            };
+
+            xhr.onerror = function () {
+                reject({
+                    status: this.status,
+                    statusText: xhr.statusText
+                });
+            };
+            xhr.send();
+        });
+    }
+
+    async function getFirstMessage() {
+        let contacts = await getContactsWithMessages();
+        contacts = JSON.parse(contacts);
+        let contactsContainer = document.getElementById("contacts-box");
+        let messagesContainer = document.getElementById("messages-box");
+        console.log("Contacts: " + JSON.stringify(contacts));
+
+        if (contacts !== null) {
+            let contactsTable = document.createElement('table');
+            contactsTable.className = "contactsTable";
+            let selectedRow;
+            for (let i = 0; i < contacts.length; i++) {
+                let contact = contacts[i];
+                console.log(JSON.stringify(contact));
+                console.log("i: " + i);
+                let url = "http://localhost:8080/api/messages/first_with/" + contact.id;
+                let xhr = new XMLHttpRequest();
+                await xhr.open("GET", url, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        let body = JSON.parse(xhr.responseText);
+                        let row = document.createElement('tr')
+                        row.id = i.toString();
+                        row.onclick = async function () {
+                            if(selectedRow)
+                                selectedRow.style = "";
+                            this.style = "background-color: #98E388;";
+                            selectedRow = this;
+                            messagesContainer.innerHTML = "";
+                            await getAllMessagesWithContact(contact);
+                        };
+                        contactsTable.appendChild(row);
+                        let contactName = document.createElement('h6');
+                        contactName.className = "ml-3 mt-2";
+                        contactName.innerHTML = contact.username;
+                        row.appendChild(contactName);
+                        let message = document.createElement('p');
+                        message.className = "ml-3 mb-2";
+                        message.innerHTML = body.message;
+                        row.appendChild(message);
+                        contactsContainer.appendChild(contactsTable);
                     }
                 }
+                xhr.send(null);
             }
         }
+    }
+
+    async function getAllMessagesWithContact(contact) {
+        let messagesContainer = document.getElementById("messages-box");
+        let currentUser = await getCurrentUser();
+        currentUser = JSON.parse(currentUser);
+        let xhr = new XMLHttpRequest();
+        let url = "http://localhost:8080/api/messages/with/" + contact.id;
+        await xhr.open("GET", url, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let messages = JSON.parse(xhr.responseText);
+                let messagesTable = document.createElement('table');
+                messagesTable.className = "messagesTable";
+                for (let i = 0; i < messages.length; i++) {
+                    let messageObj = messages[i];
+                    let row = document.createElement('tr')
+                    messagesTable.appendChild(row);
+                    let author = document.createElement('h6');
+                    author.className = "ml-3 mt-2";
+                    author.innerHTML = messageObj.author === currentUser.id
+                        ? currentUser.username
+                        : contact.username;
+                    row.appendChild(author);
+                    let message = document.createElement('p');
+                    message.className = "ml-3 mb-2";
+                    message.innerHTML = messageObj.message;
+                    row.appendChild(message);
+                }
+                messagesContainer.appendChild(messagesTable);
+            }
+        }
+        xhr.send(null);
+    }
+
+    getFirstMessage();
 </script>
 </html>
