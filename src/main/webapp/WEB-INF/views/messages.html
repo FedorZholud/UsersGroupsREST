@@ -90,7 +90,7 @@
                 let url = "http://localhost:8080/api/messages/first_with/" + contact.id;
                 let xhr = new XMLHttpRequest();
                 await xhr.open("GET", url, true);
-                xhr.onload = function () {
+                xhr.onload = await function () {
                     if (xhr.status === 200) {
                         let body = JSON.parse(xhr.responseText);
                         let row = document.createElement('tr')
@@ -115,7 +115,7 @@
                         contactsContainer.appendChild(contactsTable);
                     }
                 }
-                xhr.send(null);
+                await xhr.send(null);
             }
         }
     }
